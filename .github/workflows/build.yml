@@ -1,0 +1,32 @@
+name: build-exe
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  win-exe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller pillow pystray tkinterdnd2
+
+      - name: Build exe
+        run: |
+          pyinstaller --noconfirm --clean --onefile --windowed --name FileTransferOne --hidden-import=tkinterdnd2 --add-data "azure.tcl;." c:\Users\Admin\Desktop\sendfile.py
+
+      - name: Archive artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FileTransferOne
+          path: dist/FileTransferOne.exe

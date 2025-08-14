@@ -1,0 +1,5 @@
+# Runtime/build dependencies for Python 3.8
+pyinstaller==5.13.2
+pillow==10.3.0
+pystray==0.19.5
+tkinterdnd2==0.4.2
